@@ -9,7 +9,7 @@ on:
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  VERSION: 0.0.2
+  VERSION: "0.0.2"
 jobs:
 
   build:
