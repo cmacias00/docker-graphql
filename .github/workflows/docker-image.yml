@@ -29,21 +29,20 @@ jobs:
         format: "${major}.${minor}.${patch}-prerelease${increment}"
       id: version
         
-    - name: Docker login
-      env:
-        NEW_VERSION: ${{ steps.version.outputs.version }}
-        
+    - name: Docker login        
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "New version $NEW_VERSION"
         
-        
-#    - name: Build Docker Image
-#      run: | 
-#        docker build -t $DOCKER_USER/docker-graphql:$VERSION .
-#        docker build -t $DOCKER_USER/docker-graphql:latest .
-#
-#    - name: Push Docker Image
-#      run: |
-#        docker push $DOCKER_USER/docker-graphql:$VERSION
-#        docker push $DOCKER_USER/docker-graphql:latest
+    - name: Build Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: | 
+        docker build -t $DOCKER_USER/docker-graphql:$NEW_VERSION .
+        docker build -t $DOCKER_USER/docker-graphql:latest .
+
+    - name: Push Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push $DOCKER_USER/docker-graphql:$NEW_VERSION
+        docker push $DOCKER_USER/docker-graphql:latest
